@@ -1,14 +1,39 @@
 import "./style.css";
+import { useState } from "react";
+import currencies from "../currencies";
+import Result from "../Result";
 
 const Form = () => {
+  const [amount, setAmount] = useState("");
+
+  const [result, setResult] = useState(null);
+
+  const [selectedCurrencyValue, setSelectedCurrencyValue] = useState({
+    shrt: currencies[0].shrt,
+    worth: currencies[0].worth,
+  });
+
+  const onFormSubmit = (event) => {
+    event.preventDefault();
+    setResult(amount / selectedCurrencyValue.worth);
+  };
+
+  const selectOption = currencies.map((currency) => (
+    <option key={currency.id} value={currency.worth}>
+      {currency.shrt}
+    </option>
+  ));
+
   return (
-    <form className="form">
+    <form className="form" onSubmit={onFormSubmit}>
       <fieldset className="form__fieldset">
         <legend className="form__legend">Kalkulator Walut</legend>
         <p>
           <label>
             <span className="form__labelText">Kwota w zł*:</span>
             <input
+              value={amount}
+              onChange={({ target }) => setAmount(target.value)}
               className="form__field"
               type="number"
               name="value"
@@ -21,28 +46,38 @@ const Form = () => {
         <p>
           <label>
             <span className="form__labelText">Waluta:</span>
-            <select className="form__field" name="Currency">
-              <option title="Euro" value="EUR">
-                EUR
-              </option>
-              <option title="Dolar Amerykański" value="USD">
-                USD
-              </option>
-              <option title="Funt Brytyjski" value="GBP">
-                GBP
-              </option>
-              <option title="Frank Szwajcarski" value="CHF">
-                CHF
-              </option>
+            <select
+              className="form__field"
+              value={selectedCurrencyValue.worth}
+              onChange={({ target }) =>
+                setSelectedCurrencyValue({
+                  worth: target.value,
+                 
+                })
+              }
+            >
+              {selectOption}
             </select>
           </label>
         </p>
       </fieldset>
       <p>
-        <button className="form__button">Przelicz</button>
+        <button type="submit" className="form__button">
+          Przelicz
+        </button>
+        <label>Waluta: {selectedCurrencyValue.shrt}</label>
       </p>
       <p className="paragraph">
-        <strong className="result">N/A</strong>
+        {result !== null && (
+          <b>
+            {" "}
+            <Result
+              amount={amount}
+              result={result}
+              selectedCurrency={selectedCurrencyValue.shrt}
+            />
+          </b>
+        )}
       </p>
     </form>
   );
