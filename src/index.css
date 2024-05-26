@@ -10,9 +10,10 @@ html {
 
 body {
   font-family: "Lato", sans-serif;
-  background-repeat: no-repeat;
-  background-size: cover;
     background-image: url("../public/background.jpg");
+    background-position: center;
+    background-size: cover;
+    min-height: 100vh;
 }
 
 
