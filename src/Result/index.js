@@ -1,7 +1,7 @@
-const Result = ({amount, result, selectedCurrency}) => {
+const Result = ({targetAmount, myResult, selectedCurrency}) => {
   return (
-    `${amount} PLN = ${result} ${selectedCurrency}`
-  );
+    `${targetAmount} PLN = ${myResult.toFixed(2)} ${selectedCurrency}`
+    );
 };
 
 export default Result;
