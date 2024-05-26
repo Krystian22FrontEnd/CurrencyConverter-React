@@ -5,17 +5,23 @@ import Result from "../Result";
 
 const Form = () => {
   const [amount, setAmount] = useState("");
-
   const [result, setResult] = useState(null);
-
   const [selectedCurrencyValue, setSelectedCurrencyValue] = useState({
-    shrt: currencies[0].shrt,
     worth: currencies[0].worth,
+    shrt: currencies[0].shrt,
   });
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    setResult(amount / selectedCurrencyValue.worth);
+    const foundCurrency = currencies.find(it => it.worth === parseFloat(selectedCurrencyValue.worth));
+    if (foundCurrency) {
+      setResult({
+        targetAmount: +amount,
+        myResult: amount / foundCurrency.worth,
+        selectedCurrency: foundCurrency.shrt,
+      });
+      setAmount("");
+    }
   };
 
   const selectOption = currencies.map((currency) => (
@@ -28,7 +34,7 @@ const Form = () => {
     <form className="form" onSubmit={onFormSubmit}>
       <fieldset className="form__fieldset">
         <legend className="form__legend">Kalkulator Walut</legend>
-        <p>
+        <p className="form__paragraph">
           <label>
             <span className="form__labelText">Kwota w zł*:</span>
             <input
@@ -43,18 +49,19 @@ const Form = () => {
             />
           </label>
         </p>
-        <p>
+        <p className="form__paragraph">
           <label>
             <span className="form__labelText">Waluta:</span>
             <select
               className="form__field"
               value={selectedCurrencyValue.worth}
-              onChange={({ target }) =>
+              onChange={({ target }) => {
+                const selectedCurrency = currencies.find(currency => currency.worth === parseFloat(target.value));
                 setSelectedCurrencyValue({
-                  worth: target.value,
-                 
-                })
-              }
+                  worth: selectedCurrency.worth,
+                  shrt: selectedCurrency.shrt,
+                });
+              }}
             >
               {selectOption}
             </select>
@@ -65,19 +72,17 @@ const Form = () => {
         <button type="submit" className="form__button">
           Przelicz
         </button>
-        <label>Waluta: {selectedCurrencyValue.shrt}</label>
       </p>
       <p className="paragraph">
-        {result !== null && (
-          <b>
-            {" "}
-            <Result
-              amount={amount}
-              result={result}
-              selectedCurrency={selectedCurrencyValue.shrt}
-            />
-          </b>
-        )}
+      {result && (
+        <strong>
+          <Result
+            targetAmount={result.targetAmount}
+            myResult={result.myResult}
+            selectedCurrency={result.selectedCurrency}
+          />
+          </strong>
+      )}
       </p>
     </form>
   );
