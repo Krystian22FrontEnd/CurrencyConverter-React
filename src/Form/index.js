@@ -46,6 +46,7 @@ const Form = () => {
               required
               placeholder="Mam"
               step="0.01"
+              min={"0"}
             />
           </label>
         </p>
