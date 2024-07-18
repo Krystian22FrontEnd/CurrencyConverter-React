@@ -13,7 +13,9 @@ const Form = () => {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    const foundCurrency = currencies.find(it => it.worth === parseFloat(selectedCurrencyValue.worth));
+    const foundCurrency = currencies.find(
+      (it) => it.worth === parseFloat(selectedCurrencyValue.worth)
+    );
     if (foundCurrency) {
       setResult({
         targetAmount: +amount,
@@ -57,7 +59,9 @@ const Form = () => {
               className="form__field"
               value={selectedCurrencyValue.worth}
               onChange={({ target }) => {
-                const selectedCurrency = currencies.find(currency => currency.worth === parseFloat(target.value));
+                const selectedCurrency = currencies.find(
+                  (currency) => currency.worth === parseFloat(target.value)
+                );
                 setSelectedCurrencyValue({
                   worth: selectedCurrency.worth,
                   shrt: selectedCurrency.shrt,
@@ -75,15 +79,15 @@ const Form = () => {
         </button>
       </p>
       <p className="paragraph">
-      {result && (
-        <strong>
-          <Result
-            targetAmount={result.targetAmount}
-            myResult={result.myResult}
-            selectedCurrency={result.selectedCurrency}
-          />
+        {result && (
+          <strong>
+            <Result
+              targetAmount={result.targetAmount}
+              myResult={result.myResult}
+              selectedCurrency={result.selectedCurrency}
+            />
           </strong>
-      )}
+        )}
       </p>
     </form>
   );
