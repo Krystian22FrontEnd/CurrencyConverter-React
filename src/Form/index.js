@@ -22,7 +22,6 @@ const Form = () => {
         myResult: amount / foundCurrency.worth,
         selectedCurrency: foundCurrency.shrt,
       });
-      setAmount("");
     }
   };
 
