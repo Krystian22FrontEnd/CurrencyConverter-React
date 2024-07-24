@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./style.css";
-import { interval } from "date-fns";
 
 const Time = () => {
   const [myTime, setMyTime] = useState(new Date());
