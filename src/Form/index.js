@@ -1,7 +1,7 @@
-import "./style.css";
 import { useState } from "react";
 import currencies from "../currencies";
 import Result from "../Result";
+import { Fieledset, Legend, LabelText, Input, Button, Paragraph, StyledParagraph } from "./styled";
 
 const Form = () => {
   const [amount, setAmount] = useState("");
@@ -32,16 +32,15 @@ const Form = () => {
   ));
 
   return (
-    <form className="form" onSubmit={onFormSubmit}>
-      <fieldset className="form__fieldset">
-        <legend className="form__legend">Kalkulator Walut</legend>
-        <p className="form__paragraph">
+    <form onSubmit={onFormSubmit}>
+      <Fieledset>
+        <Legend>Kalkulator Walut</Legend>
+        <StyledParagraph>
           <label>
-            <span className="form__labelText">Kwota w zł*:</span>
-            <input
+            <LabelText>Kwota w zł*:</LabelText>
+            <Input
               value={amount}
               onChange={({ target }) => setAmount(target.value)}
-              className="form__field"
               type="number"
               name="value"
               required
@@ -50,12 +49,12 @@ const Form = () => {
               min={"0"}
             />
           </label>
-        </p>
-        <p className="form__paragraph">
+        </StyledParagraph>
+        <StyledParagraph>
           <label>
-            <span className="form__labelText">Waluta:</span>
-            <select
-              className="form__field"
+            <LabelText>Waluta:</LabelText>
+            <Input
+              as="select"
               value={selectedCurrencyValue.worth}
               onChange={({ target }) => {
                 const selectedCurrency = currencies.find(
@@ -68,16 +67,16 @@ const Form = () => {
               }}
             >
               {selectOption}
-            </select>
+            </Input>
           </label>
-        </p>
-      </fieldset>
+        </StyledParagraph>
+      </Fieledset>
       <p>
-        <button type="submit" className="form__button">
+        <Button type="submit">
           Przelicz
-        </button>
+        </Button>
       </p>
-      <p className="paragraph">
+      <Paragraph>
         {result && (
           <strong>
             <Result
@@ -87,7 +86,7 @@ const Form = () => {
             />
           </strong>
         )}
-      </p>
+      </Paragraph>
     </form>
   );
 };

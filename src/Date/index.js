@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./style.css";
+import { StyledTime } from "./styled";
 
 const Time = () => {
   const [myTime, setMyTime] = useState(new Date());
@@ -7,7 +7,9 @@ const Time = () => {
     const intervalId = setInterval(() => {
       setMyTime(new Date(), 1000);
 
-      return () => {clearInterval(intervalId)}
+      return () => {
+        clearInterval(intervalId);
+      };
     });
   }, [myTime]);
 
@@ -21,7 +23,7 @@ const Time = () => {
     second: "numeric",
   });
 
-  return <div className="clock">Dzisiaj jest {localTime}</div>;
+  return <StyledTime>Dzisiaj jest {localTime}</StyledTime>;
 };
 
 export default Time;
