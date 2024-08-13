@@ -1,18 +1,18 @@
 import styled from "styled-components";
 
 export const Fieledset = styled.fieldset`
-  border: 3px solid #5e6161;
+  border: 3px solid ${({theme}) => theme.colors.graphit};
   padding: 20px 0;
   border-radius: 5px;
 `;
 
 export const Legend = styled.legend`
-  border: 2px solid #5e6161;
+  border: 2px solid ${({theme}) => theme.colors.graphit};
   border-radius: 5px;
   padding: 10px 10px;
   border-radius: 5px;
-  background-color: #ec8422;
-  color: white;
+  background-color: ${({theme}) => theme.colors.orange};
+  color: ${({theme}) => theme.colors.white};
 `;
 
 export const LabelText = styled.span`
@@ -20,7 +20,7 @@ export const LabelText = styled.span`
   padding: 0px 20px;
   max-width: 200px;
   width: 100%;
-  color: black;
+  color: ${({theme}) => theme.colors.black};
 
   @media (max-width: 650px) {
     padding: 2px;
@@ -29,7 +29,7 @@ export const LabelText = styled.span`
 
 export const Input = styled.input`
   display: inline-block;
-  border: 2px solid #f07e14;
+  border: 2px solid ${({theme}) => theme.colors.orange};
   max-width: 400px;
   width: 100%;
   padding: 10px;
@@ -41,18 +41,18 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  border: 2px solid #5e6161;
+  border: 2px solid ${({theme}) => theme.colors.graphit};
   border-radius: 5px;
-  background-color: #b1b4b6;
+  background-color: ${({theme}) => theme.colors.silver};
   padding: 20px 0;
   width: 100%;
 
   &:hover {
-    background-color: #e28f41;
+    background-color: ${({theme}) => theme.colors.orange};
   }
 
   &:active {
-    background-color: #f7ad68;
+    background-color: ${({theme}) => theme.colors.lightOrange};
   }
 `;
 
