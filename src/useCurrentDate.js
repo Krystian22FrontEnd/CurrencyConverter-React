@@ -10,16 +10,7 @@ export const useCurrentDate = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [myTime]);
-  const localTime = myTime.toLocaleTimeString("pl-PL", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  });
+  }, []);
 
-  return [localTime];
+  return myTime;
 };
