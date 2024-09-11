@@ -1,93 +1,96 @@
 import { useState } from "react";
-import currencies from "../currencies";
-import Result from "../Result";
-import { Fieledset, Legend, LabelText, Input, Button, Paragraph, StyledParagraph } from "./styled";
+import Result from "./Result";
+import {
+  Fieledset,
+  Legend,
+  LabelText,
+  Input,
+  Button,
+  Paragraph,
+  StyledParagraph,
+  PrimaryParagraph,
+} from "./styled";
+import { useAsyncFunction } from "../useAsyncFunction";
+import { Loading } from "../Loading";
+import { Error } from "../Error";
 
 const Form = () => {
   const [amount, setAmount] = useState("");
   const [result, setResult] = useState(null);
-  const [selectedCurrencyValue, setSelectedCurrencyValue] = useState({
-    worth: currencies[0].worth,
-    shrt: currencies[0].shrt,
-  });
+  const [currency, setCurrency] = useState("EUR");
+
+  const ratesData = useAsyncFunction();
+
+  const calculateResult = (currency, amount) => {
+    const currencies = ratesData.data[currency].value;
+
+    setResult({
+      targetAmount: +amount,
+      myResult: amount * currencies,
+      currency,
+    });
+  };
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    const foundCurrency = currencies.find(
-      (it) => it.worth === parseFloat(selectedCurrencyValue.worth)
-    );
-    if (foundCurrency) {
-      setResult({
-        targetAmount: +amount,
-        myResult: amount / foundCurrency.worth,
-        selectedCurrency: foundCurrency.shrt,
-      });
-    }
+    calculateResult(currency, amount);
   };
 
-  const selectOption = currencies.map((currency) => (
-    <option key={currency.id} value={currency.worth}>
-      {currency.shrt}
-    </option>
-  ));
-
   return (
-    <form onSubmit={onFormSubmit}>
-      <Fieledset>
-        <Legend>Kalkulator Walut</Legend>
-        <StyledParagraph>
-          <label>
-            <LabelText>Kwota w zł*:</LabelText>
-            <Input
-              value={amount}
-              onChange={({ target }) => setAmount(target.value)}
-              type="number"
-              name="value"
-              required
-              placeholder="Mam"
-              step="0.01"
-              min={"0"}
-            />
-          </label>
-        </StyledParagraph>
-        <StyledParagraph>
-          <label>
-            <LabelText>Waluta:</LabelText>
-            <Input
-              as="select"
-              value={selectedCurrencyValue.worth}
-              onChange={({ target }) => {
-                const selectedCurrency = currencies.find(
-                  (currency) => currency.worth === parseFloat(target.value)
-                );
-                setSelectedCurrencyValue({
-                  worth: selectedCurrency.worth,
-                  shrt: selectedCurrency.shrt,
-                });
-              }}
-            >
-              {selectOption}
-            </Input>
-          </label>
-        </StyledParagraph>
-      </Fieledset>
-      <p>
-        <Button type="submit">
-          Przelicz
-        </Button>
-      </p>
-      <Paragraph>
-        {result && (
-          <strong>
-            <Result
-              targetAmount={result.targetAmount}
-              myResult={result.myResult}
-              selectedCurrency={result.selectedCurrency}
-            />
-          </strong>
-        )}
-      </Paragraph>
-    </form>
+    <>
+      {ratesData.status === "loading" ? (
+        <Loading />
+      ) : ratesData.status === "error" ? (
+        <Error />
+      ) : (
+        <form onSubmit={onFormSubmit}>
+          <Fieledset>
+            <Legend>Kalkulator Walut</Legend>
+            <StyledParagraph>
+              <label>
+                <LabelText>Kwota w zł*:</LabelText>
+                <Input
+                  value={amount}
+                  onChange={({ target }) => setAmount(target.value)}
+                  type="number"
+                  name="value"
+                  required
+                  placeholder="Mam"
+                  step="0.01"
+                  min={"0"}
+                />
+              </label>
+            </StyledParagraph>
+            <StyledParagraph>
+              <label>
+                <LabelText>Waluta:</LabelText>
+                <Input
+                  as="select"
+                  value={currency}
+                  onChange={({ target }) => setCurrency(target.value)}
+                >
+                  {Object.keys(ratesData.data).map((currencyCode) => (
+                    <option key={currencyCode} value={currencyCode}>
+                      {currencyCode}
+                    </option>
+                  ))}
+                </Input>
+              </label>
+            </StyledParagraph>
+          </Fieledset>
+          <p>
+            <Button type="submit">Przelicz</Button>
+          </p>
+          <PrimaryParagraph>
+            Dane pochodzą z róznych instytucji finansowych. <br />
+            Aktualne na dzień: <b>{ratesData.date}</b>
+          </PrimaryParagraph>
+          <Paragraph>
+            <Result result={result} />
+          </Paragraph>
+        </form>
+      )}
+    </>
   );
 };
 
