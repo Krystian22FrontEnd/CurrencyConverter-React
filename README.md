@@ -7,7 +7,7 @@ https://krystian22frontend.github.io/CurrencyConverter-React/
 ## Opis
 Simple currency conventer. Values of the currencies are taken from different finance institutions.
 
-![Currency](https://github.com/Krystian22FrontEnd/CurrencyConventer/blob/main/images/CurrencyConverter.png?raw=true)
+![Currency](https://github.com/Krystian22FrontEnd/CurrencyConverter-React/blob/main/public/CurrencyConverter.png?raw=true)
 
 Used technologies:
 - Flex
@@ -22,8 +22,11 @@ Used technologies:
 - Babel
 - BEM
 - React Spinners
+- React Components
 - Use Effect
 - Use State
+- Global Styles
+- Theme
 
 
 
