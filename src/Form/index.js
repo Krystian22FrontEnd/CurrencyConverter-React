@@ -10,16 +10,16 @@ import {
   StyledParagraph,
   PrimaryParagraph,
 } from "./styled";
-import { useAsyncFunction } from "../useAsyncFunction";
 import { Loading } from "../Loading";
 import { Error } from "../Error";
+import { useRatesData } from "../useRatesData";
 
 const Form = () => {
   const [amount, setAmount] = useState("");
   const [result, setResult] = useState(null);
   const [currency, setCurrency] = useState("EUR");
 
-  const ratesData = useAsyncFunction();
+  const ratesData = useRatesData();
 
   const calculateResult = (currency, amount) => {
     const currencies = ratesData.data[currency].value;

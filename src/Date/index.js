@@ -1,4 +1,3 @@
-import { RiseLoader } from "react-spinners";
 import { useCurrentDate } from "../useCurrentDate";
 import { StyledTime } from "./styled";
 
@@ -6,7 +5,6 @@ const Time = () => {
   const myTime = useCurrentDate();
 
   return (
-    <>
     <StyledTime>
       Dzisiaj jest{" "}
       {myTime.toLocaleTimeString("pl-PL", {
@@ -19,7 +17,6 @@ const Time = () => {
         second: "numeric",
       })}
     </StyledTime>
-    </>
   );
 };
 
