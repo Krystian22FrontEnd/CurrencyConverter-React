@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
 import Result from "./Result";
 import {
   Fieledset,
@@ -14,15 +14,25 @@ import { Loading } from "../Loading";
 import { Error } from "../Error";
 import { useRatesData } from "../useRatesData";
 
+interface FormProps {
+  targetAmount: number;
+  myResult: number;
+  currency: string;
+}
+
 const Form = () => {
   const [amount, setAmount] = useState("");
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<FormProps>({
+    targetAmount: 0,
+    myResult: 0,
+    currency: "",
+  });
   const [currency, setCurrency] = useState("EUR");
 
   const ratesData = useRatesData();
 
-  const calculateResult = (currency, amount) => {
-    const currencies = ratesData.data[currency].value;
+  const calculateResult = (currency: string, amount: number) => {
+    const currencies = ratesData.data![currency].value;
 
     setResult({
       targetAmount: +amount,
@@ -31,9 +41,9 @@ const Form = () => {
     });
   };
 
-  const onFormSubmit = (event) => {
+  const onFormSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    calculateResult(currency, amount);
+    calculateResult(currency, Number(amount));
   };
 
   return (
