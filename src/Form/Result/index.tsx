@@ -1,4 +1,12 @@
-export const Result = ({ result }) => {
+interface ResultProps {
+  result?: {
+    targetAmount: number;
+    myResult: number;
+    currency: string;
+  };
+}
+
+export const Result = ({ result }: ResultProps) => {
   if (!result) {
     return null;
   }
